@@ -1,4 +1,6 @@
-import { Folder, ExternalLink } from "lucide-react";
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { Folder, ExternalLink, ChevronLeft, ChevronRight, GraduationCap } from "lucide-react";
 import { GithubIcon } from "./Icons";
 
 const projects = [
@@ -45,80 +47,140 @@ const projects = [
 ];
 
 export default function Projects() {
-  return (
-    <section className="section-pad !px-6 lg:px-12 relative" id="projects">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
 
-      <div className="flex items-center gap-4 mb-12 relative z-10">
-        <h2 className="text-3xl md:text-5xl font-bold text-white">Projects</h2>
-        <div className="flex-1 h-[1px] bg-white/10 ml-4 max-w-[200px]" />
+  const scrollToActive = (index: number) => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const card = container.querySelector(`[data-id="${index}"]`) as HTMLElement;
+    if (card) {
+      const offsetLeft = card.offsetLeft;
+      const cardWidth = card.clientWidth;
+      const containerWidth = container.clientWidth;
+      container.scrollTo({
+        left: offsetLeft - (containerWidth / 2) + (cardWidth / 2),
+        behavior: "smooth"
+      });
+    }
+  };
+
+  useEffect(() => {
+    scrollToActive(activeTab);
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (isHovered || userInteracted) return;
+    const interval = setInterval(() => {
+      setActiveTab((prev) => (prev + 1) % projects.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [isHovered, userInteracted]);
+
+  const navigate = (direction: "left" | "right") => {
+    setUserInteracted(true);
+    if (direction === "left") {
+      setActiveTab((prev) => Math.max(0, prev - 1));
+    } else {
+      setActiveTab((prev) => Math.min(projects.length - 1, prev + 1));
+    }
+  };
+
+  return (
+    <section className="section-pad relative overflow-hidden" id="projects">
+      {/* Background glow - moved further from boundaries to avoid clipping patah even with overflow-hidden */}
+      <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-4xl mx-auto px-6 mb-12 relative z-10">
+        <div className="flex items-center gap-4">
+          <h2 className="text-3xl md:text-5xl font-bold text-white">Projects</h2>
+          <div className="flex-1 h-[1px] bg-white/10 ml-4 max-w-[200px]" />
+        </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-        {projects.map((p) => (
-          <div key={p.name} className="flex flex-col glass-panel border-[1px] border-[var(--color-brand-border)] hover:border-cyan-400/50 rounded-3xl p-8 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group cursor-pointer relative overflow-hidden">
-            
-            {/* Subtle card Inner Glow on Hover */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:to-purple-500/5 transition-colors duration-500 pointer-events-none" />
+      <div 
+        className="relative group py-10"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="absolute inset-y-0 left-0 w-24 md:w-48 z-20 pointer-events-none flex items-center justify-start pl-4 md:pl-12">
+          <button onClick={() => navigate("left")} className="pointer-events-auto p-4 rounded-full bg-white/5 hover:bg-white/10 text-white backdrop-blur-md border border-white/10 shadow-2xl transition-all hover:scale-110 disabled:opacity-0" disabled={activeTab === 0}>
+            <ChevronLeft size={24} />
+          </button>
+        </div>
 
-            <div className="flex justify-between items-center mb-8 relative z-10">
-              <div className="p-3 bg-white/5 rounded-2xl">
-                <Folder size={32} className="text-white" />
-              </div>
-              <div className="flex items-center gap-3">
-                {p.github && (
-                  <a href={p.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full">
-                    <GithubIcon size={20} />
-                  </a>
-                )}
-                {p.live && (
-                  <a href={p.live} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full">
-                    <ExternalLink size={20} />
-                  </a>
-                )}
-              </div>
-            </div>
+        <div className="absolute inset-y-0 right-0 w-24 md:w-48 z-20 pointer-events-none flex items-center justify-end pr-4 md:pr-12">
+          <button onClick={() => navigate("right")} className="pointer-events-auto p-4 rounded-full bg-white/5 hover:bg-white/10 text-white backdrop-blur-md border border-white/10 shadow-2xl transition-all hover:scale-110 disabled:opacity-0" disabled={activeTab === projects.length - 1}>
+            <ChevronRight size={24} />
+          </button>
+        </div>
 
-            <div className="mb-3 relative z-10">
-              <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
-                {p.name}
-              </h3>
-              {p.achievement && (
-                <div className="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border border-amber-500/30 rounded-full text-amber-300 text-xs font-bold shadow-[0_0_10px_rgba(251,191,36,0.2)]">
-                  {p.achievement}
+        <div 
+          ref={scrollRef}
+          className="flex overflow-x-auto no-scrollbar snap-x snap-mandatory pt-10 pb-20"
+          style={{ paddingLeft: "calc(50vw - 225px)", paddingRight: "calc(50vw - 225px)" }}
+          onTouchStart={() => setUserInteracted(true)}
+        >
+          {projects.map((p, idx) => {
+            const isActive = activeTab === idx;
+            return (
+              <div 
+                key={p.name}
+                data-id={idx}
+                onClick={() => { setActiveTab(idx); setUserInteracted(true); }}
+                className={`snap-center shrink-0 w-[85vw] max-w-[450px] mx-4 first:ml-10 md:first:ml-0 last:mr-[30px] md:last:mr-0 glass-panel border-[1px] p-8 rounded-[2.5rem] relative transition-all duration-700 ease-out cursor-pointer overflow-hidden flex flex-col
+                  ${isActive 
+                    ? "scale-100 opacity-100 z-10 border-cyan-400/50 shadow-[0_20px_50px_rgba(0,242,254,0.15)] bg-white/10" 
+                    : "scale-90 opacity-20 blur-[2px] z-0 border-transparent bg-white/5 hover:opacity-50"}
+                `}
+              >
+                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:to-purple-500/5 transition-colors duration-500 pointer-events-none" />
+                <div className="flex justify-between items-center mb-8 relative z-10">
+                  <div className="p-3 bg-white/5 rounded-2xl"><Folder size={32} className={isActive ? "text-cyan-400" : "text-white"} /></div>
+                  <div className="flex items-center gap-3">
+                    {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"><GithubIcon size={20} /></a>}
+                    {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"><ExternalLink size={20} /></a>}
+                  </div>
                 </div>
-              )}
-            </div>
-            
-            <p className="text-[15px] text-slate-300 leading-relaxed mb-8 flex-1 relative z-10">
-              {p.desc}
-            </p>
-
-            <div className="flex flex-wrap gap-2 mt-auto relative z-10">
-              {p.tech.map((tech) => (
-                <span key={tech} className="text-[11px] font-bold px-3 py-1 bg-white/5 text-slate-300 rounded-full">
-                  {tech}
-                </span>
-              ))}
+                <div className="mb-3 relative z-10">
+                  <h3 className="text-2xl font-bold text-white">{p.name}</h3>
+                  {p.achievement && <div className="inline-block mt-3 px-3 py-1 bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border border-amber-500/30 rounded-full text-amber-300 text-[10px] font-bold shadow-[0_0_10px_rgba(251,191,36,0.2)] uppercase tracking-wider">{p.achievement}</div>}
+                </div>
+                <p className="text-[15px] text-slate-300 leading-relaxed mb-8 flex-1 relative z-10">{p.desc}</p>
+                <div className="flex flex-wrap gap-2 mt-auto relative z-10 pt-6 border-t border-white/5">
+                  {p.tech.map((tech) => <span key={tech} className="text-[10px] font-bold px-3 py-1 bg-white/5 text-slate-400 rounded-full border border-white/5">{tech}</span>)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      
+      {/* Enhanced Education Section */}
+      <div className="max-w-4xl mx-auto px-6 mt-16 relative z-10">
+        <div className="flex items-center gap-3 mb-8 ml-2">
+          <GraduationCap className="text-cyan-400" size={28} />
+          <h2 className="text-2xl font-bold text-white tracking-tight">Education</h2>
+        </div>
+        
+        <div className="glass-panel p-8 md:p-10 rounded-[2.5rem] flex flex-col md:flex-row md:justify-between md:items-center hover:bg-white/10 border border-white/10 transition-all duration-500 group relative overflow-hidden shadow-2xl">
+          {/* Internal Glow Effect */}
+          <div className="absolute -top-24 -left-24 w-64 h-64 bg-cyan-500/5 blur-[80px] rounded-full pointer-events-none group-hover:bg-cyan-500/10 transition-colors" />
+          
+          <div className="relative z-10">
+            <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">University of Indonesia</h3>
+            <p className="text-slate-300 font-medium mt-1 text-lg">Bachelor in Computer Science</p>
+            <div className="flex items-center gap-2 mt-4">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,1)]" />
+              <p className="text-cyan-400/80 text-sm font-bold uppercase tracking-wider">Depok, Indonesia</p>
             </div>
           </div>
-        ))}
-      </div>
-      
-      {/* Soft Education Section */}
-      <h2 className="text-2xl font-bold text-white mt-32 mb-8 ml-2">
-        Education
-      </h2>
-      
-      <div className="glass-panel p-8 rounded-3xl max-w-3xl flex flex-col md:flex-row md:justify-between md:items-center hover:bg-white/5 transition-colors cursor-default">
-        <div>
-          <h3 className="text-xl font-bold text-white">University of Indonesia</h3>
-          <p className="text-slate-300 font-medium mt-1">Bachelor in Computer Science</p>
-          <p className="text-cyan-400 text-sm mt-2 font-bold">Depok, Indonesia</p>
-        </div>
-        <div className="text-slate-400 font-bold text-sm mt-4 md:mt-0 bg-white/5 px-4 py-2 rounded-full">
-          Sep 2019 — June 2023
+          <div className="relative z-10 text-slate-400 font-bold text-sm mt-8 md:mt-0 bg-white/5 px-6 py-3 rounded-2xl border border-white/10 backdrop-blur-md group-hover:border-cyan-500/30 transition-colors">
+            Sep 2019 — June 2023
+          </div>
         </div>
       </div>
     </section>
