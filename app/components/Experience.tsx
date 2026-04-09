@@ -55,7 +55,7 @@ export default function Experience() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <section className="section-pad px-6 lg:px-12" id="experience">
+    <section className="section-pad !px-6 lg:px-12" id="experience">
       <div className="flex items-center gap-4 mb-12">
         <h2 className="text-3xl md:text-5xl font-bold text-white">Experience</h2>
         <div className="flex-1 h-[1px] bg-white/10 ml-4 max-w-[200px]" />
@@ -63,12 +63,12 @@ export default function Experience() {
 
       <div className="flex flex-col md:flex-row gap-6 md:gap-12 min-h-[350px]">
         {/* Modern Pill Tabs */}
-        <div className="flex md:flex-col overflow-x-auto md:overflow-x-visible no-scrollbar md:w-56 shrink-0 gap-2">
+        <div className="flex md:flex-col overflow-x-auto no-scrollbar snap-x snap-mandatory md:w-56 shrink-0 gap-3 pb-2 md:pb-0">
           {jobs.map((job, idx) => (
             <button
               key={idx}
               onClick={() => setActiveTab(idx)}
-              className={`px-5 py-3 md:py-4 text-sm font-bold text-left whitespace-nowrap transition-all duration-300 rounded-xl
+              className={`snap-start px-5 py-3 md:py-4 text-sm font-bold text-center md:text-left whitespace-nowrap transition-all duration-300 rounded-xl
                 ${activeTab === idx 
                   ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] scale-[1.02]" 
                   : "text-slate-400 border-transparent hover:bg-white/5 hover:text-white"}

@@ -35,7 +35,7 @@ const groups = [
 
 export default function Skills() {
   return (
-    <section className="py-24 px-6 relative" id="about">
+    <section className="py-24 !px-6 relative" id="about">
       <div className="max-w-5xl mx-auto">
         <div className="mb-14">
           <h2 className="text-3xl font-bold text-zinc-100 tracking-tight mb-3">

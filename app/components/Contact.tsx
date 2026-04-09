@@ -1,6 +1,6 @@
 export default function Contact() {
   return (
-    <section className="section-pad px-6 text-center max-w-2xl mx-auto relative" id="contact">
+    <section className="section-pad !px-6 text-center max-w-2xl mx-auto relative" id="contact">
       
       {/* Decorative center glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px] pointer-events-none z-0" />

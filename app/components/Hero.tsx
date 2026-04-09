@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="min-h-screen flex flex-col justify-center section-pad px-6 lg:px-12 relative" id="hero">
+    <section className="min-h-screen flex flex-col justify-center section-pad !px-6 lg:px-12 relative" id="hero">
       
       {/* Decorative Blob */}
       <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full blur-3xl rounded-full z-0 pointer-events-none var(--animate-blob)" />

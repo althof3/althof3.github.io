@@ -46,7 +46,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section className="section-pad px-6 lg:px-12 relative" id="projects">
+    <section className="section-pad !px-6 lg:px-12 relative" id="projects">
       {/* Background glow */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
