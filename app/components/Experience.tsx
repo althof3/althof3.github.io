@@ -177,7 +177,7 @@ export default function Experience() {
         {/* The Timeline Vertical Line */}
         <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-500/50 via-purple-500/50 to-transparent translate-x-[62px] md:-translate-x-1/2 z-0" />
 
-        <div className="space-y-16 md:space-y-32 relative z-10">
+        <div className="relative z-10">
           {jobs.map((job, idx) => {
             const isEven = idx % 2 === 0;
             return (
@@ -185,14 +185,13 @@ export default function Experience() {
                 
                 {/* Date on the Opposite Side (Desktop only) */}
                 <div className={`hidden md:flex w-1/2 items-center px-12 ${isEven ? 'justify-end' : 'justify-start md:order-last'}`}>
-                  <span className="text-sm font-black text-cyan-400/30 tracking-[0.2em] uppercase origin-center transform transition-all duration-500 hover:text-cyan-400 hover:scale-105 cursor-default">
+                  <span className="text-sm font-black tracking-[0.2em] uppercase origin-center transform transition-all duration-500 text-cyan-400 hover:scale-105 cursor-default">
                     {job.period}
                   </span>
                 </div>
 
-                {/* Timeline Dot - Mathematically centered on the line */}
-                <div className="absolute left-0 md:left-1/2 w-4 h-4 md:w-4 md:h-4 rounded-full bg-[#030014] border-2 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)] translate-x-[31px] md:-translate-x-1/2 z-20 mt-[30px] md:mt-0" />
-
+                {/* Timeline Dot - Mathematically centered on the line, filled color on the first item */}
+                <div className={`absolute left-0 md:left-1/2 w-4 h-4 md:w-4 md:h-4 rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)] translate-x-[31px] md:-translate-x-1/2 z-20 mt-[30px] md:mt-0 ${idx === 0 ? 'bg-cyan-400' : 'bg-[#030014]'}`} />
                 {/* Content Card */}
                 <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:order-last md:pl-16' : 'md:pr-16'}`}>
                   <ExperienceCard job={job} />
