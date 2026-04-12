@@ -149,16 +149,26 @@ export default function Projects() {
           {projects.map((p, idx) => {
             const isActive = activeTab === idx;
             return (
-              <div 
-                key={p.name}
-                data-id={idx}
-                onClick={() => { setActiveTab(idx); setUserInteracted(true); }}
-                className={`snap-center shrink-0 w-[90vw] max-w-[550px] mx-6 first:ml-10 md:first:ml-0 last:mr-[30px] md:last:mr-0 glass-panel border-[1px] p-10 rounded-[3rem] relative transition-all duration-700 ease-out cursor-pointer overflow-hidden flex flex-col group
-                  ${isActive 
-                    ? "scale-100 opacity-100 z-10 border-cyan-400/50 shadow-[0_20px_60px_rgba(0,242,254,0.2)] bg-white/10" 
-                    : "scale-90 opacity-20 z-0 border-transparent bg-white/5 hover:opacity-50"}
-                `}
-              >
+                <div 
+                  key={p.name}
+                  data-id={idx}
+                  onClick={() => { setActiveTab(idx); setUserInteracted(true); }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setActiveTab(idx);
+                      setUserInteracted(true);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-selected={isActive}
+                  className={`snap-center shrink-0 w-[90vw] max-w-[550px] mx-6 first:ml-10 md:first:ml-0 last:mr-[30px] md:last:mr-0 glass-panel border-[1px] p-10 rounded-[3rem] relative transition-all duration-700 ease-out cursor-pointer overflow-hidden flex flex-col group focus:outline-none focus:ring-2 focus:ring-cyan-500/50
+                    ${isActive 
+                      ? "scale-100 opacity-100 z-10 border-cyan-400/50 shadow-[0_20px_60px_rgba(0,242,254,0.2)] bg-white/10" 
+                      : "scale-90 opacity-20 z-0 border-transparent bg-white/5 hover:opacity-50"}
+                  `}
+                >
                 {/* Background Image / Placeholder */}
                 {p.image ? (
                   <div className={`absolute inset-0 z-0 transition-all duration-700 ease-in-out transform 
@@ -184,7 +194,7 @@ export default function Projects() {
                     <div>
                       <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">{p.name}</h3>
                       {p.achievement && (
-                        <div className="inline-block mt-3 px-3 py-1 bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border border-amber-500/30 rounded-full text-amber-300 text-[10px] font-bold shadow-[0_0_10px_rgba(251,191,36,0.2)] uppercase tracking-wider">
+                        <div className="inline-block mt-3 px-3 py-1 bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border border-amber-500/30 rounded-full text-amber-200 text-xs font-bold shadow-[0_0_10px_rgba(251,191,36,0.2)] uppercase tracking-wider">
                           {p.achievement}
                         </div>
                       )}
@@ -192,12 +202,12 @@ export default function Projects() {
                     
                     <div className="flex items-center gap-2">
                       {p.github && (
-                        <a href={p.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-all p-2 hover:bg-white/10 rounded-full backdrop-blur-md border border-white/5 hover:border-white/20">
+                        <a href={p.github} target="_blank" rel="noopener noreferrer" aria-label={`View ${p.name} on Github`} className="text-slate-300 hover:text-white transition-all p-2 hover:bg-white/10 rounded-full backdrop-blur-md border border-white/5 hover:border-white/20">
                           <GithubIcon size={18} />
                         </a>
                       )}
                       {p.live && (
-                        <a href={p.live} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-all p-2 hover:bg-white/10 rounded-full backdrop-blur-md border border-white/5 hover:border-white/20">
+                        <a href={p.live} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${p.name} live site`} className="text-slate-300 hover:text-white transition-all p-2 hover:bg-white/10 rounded-full backdrop-blur-md border border-white/5 hover:border-white/20">
                           <ExternalLink size={18} />
                         </a>
                       )}
@@ -220,7 +230,7 @@ export default function Projects() {
                 {/* Tech Tags */}
                 <div className="flex flex-wrap gap-2 mt-auto relative z-10 pt-6 border-t border-white/10">
                   {p.tech.map((tech) => (
-                    <span key={tech} className="text-[10px] font-bold px-3 py-1 bg-white/10 text-slate-300 rounded-full border border-white/10 backdrop-blur-sm">
+                    <span key={tech} className="text-xs font-bold px-3 py-1 bg-white/10 text-slate-200 rounded-full border border-white/10 backdrop-blur-sm">
                       {tech}
                     </span>
                   ))}
@@ -250,7 +260,7 @@ export default function Projects() {
               <p className="text-cyan-400/80 text-sm font-bold uppercase tracking-wider">Depok, Indonesia</p>
             </div>
           </div>
-          <div className="relative z-10 text-slate-400 font-bold text-sm mt-8 md:mt-0 bg-white/5 px-6 py-3 rounded-2xl border border-white/10 backdrop-blur-md group-hover:border-cyan-500/30 transition-colors">
+          <div className="relative z-10 text-slate-300 font-bold text-sm mt-8 md:mt-0 bg-white/5 px-6 py-3 rounded-2xl border border-white/10 backdrop-blur-md group-hover:border-cyan-500/30 transition-colors">
             Sep 2019 — June 2023
           </div>
         </div>

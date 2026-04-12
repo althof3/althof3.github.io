@@ -28,7 +28,7 @@ export default function Navbar() {
               : "bg-transparent border border-transparent"
           }`}
         >
-          <a href="#" className="font-bold text-xl tracking-tighter text-white flex items-center gap-2 hover:opacity-80 transition-opacity pl-2">
+          <a href="#" aria-label="Home" className="font-bold text-xl tracking-tighter text-white flex items-center gap-2 hover:opacity-80 transition-opacity pl-2">
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-purple-500 flex items-center justify-center text-sm shadow-[0_0_15px_rgba(0,242,254,0.3)]">
               AR
             </div>
@@ -49,7 +49,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Toggle */}
-          <button onClick={() => setOpen(!open)} className="md:hidden text-white p-2">
+          <button onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} className="md:hidden text-white p-2">
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
         </header>

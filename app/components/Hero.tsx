@@ -15,11 +15,11 @@ export default function Hero() {
           Althof Ramdhan.
         </h2>
         
-        <h3 className="text-4xl sm:text-6xl font-bold text-slate-400 mb-8 tracking-tight">
+        <h3 className="text-4xl sm:text-6xl font-bold text-slate-300 mb-8 tracking-tight">
           I build <span className="text-gradient">scalable</span> applications.
         </h3>
         
-        <div className="max-w-xl text-slate-400 text-lg leading-relaxed mb-12">
+        <div className="max-w-xl text-slate-300 text-lg leading-relaxed mb-12">
           <p className="mb-4">
             I&apos;m a fullstack engineer with over 3 years of experience specializing in <span className="text-white font-medium">Golang</span>, <span className="text-white font-medium">Node.js</span>, and <span className="text-white font-medium">React</span>. 
           </p>

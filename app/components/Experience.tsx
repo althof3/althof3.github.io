@@ -109,13 +109,22 @@ function ExperienceCard({ job }: { job: typeof jobs[0] }) {
   return (
     <div 
       onClick={() => setExpanded(!expanded)}
-      className="glass-panel p-6 md:p-8 rounded-3xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 group relative overflow-hidden flex flex-col cursor-pointer select-none active:scale-[0.99] shadow-2xl"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setExpanded(!expanded);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-expanded={expanded}
+      className="glass-panel p-6 md:p-8 rounded-3xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 group relative overflow-hidden flex flex-col cursor-pointer select-none' active:scale-[0.99] shadow-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
     >
       <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 blur-3xl rounded-full" />
       
       {/* Mobile date badge */}
       <div className="md:hidden mb-4">
-        <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-bold tracking-widest uppercase">
+        <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-xs font-bold tracking-widest uppercase">
           {job.period}
         </span>
       </div>
@@ -130,13 +139,13 @@ function ExperienceCard({ job }: { job: typeof jobs[0] }) {
           <h3 className="text-lg md:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-tight">
             {job.title}
           </h3>
-          <p className="text-slate-400 font-bold text-xs md:text-sm opacity-80">
+          <p className="text-slate-300 font-bold text-xs md:text-sm">
             @ {job.company}
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-slate-500 group-hover:text-white transition-colors mb-4 group/btn">
+      <div className="flex items-center gap-2 text-xs font-bold text-slate-400 group-hover:text-white transition-colors mb-4 group/btn">
         <span>{expanded ? "HIDE DETAILS" : "SHOW DETAILS"}</span>
         {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
       </div>
@@ -154,7 +163,7 @@ function ExperienceCard({ job }: { job: typeof jobs[0] }) {
 
       <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5 mt-auto">
         {job.tech.map((t, i) => (
-          <span key={i} className="text-[9px] md:text-[10px] font-bold px-2 py-1 bg-white/5 text-slate-400 rounded-md border border-white/5">
+          <span key={i} className="text-xs font-bold px-2 py-1 bg-white/5 text-slate-400 rounded-md border border-white/5">
             {t}
           </span>
         ))}

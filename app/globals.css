@@ -6,6 +6,12 @@
   --color-brand-purple: #4facfe;
   --color-brand-glass: rgba(255, 255, 255, 0.03);
   --color-brand-border: rgba(255, 255, 255, 0.2);
+  
+  /* WCAG Compliant Grays/Slates for dark background */
+  --color-text-main: #a8b2d1;
+  --color-text-bright: #f8fafc;
+  --color-text-dim: #94a3b8; /* slate-400, safe for AA */
+  --color-text-mute: #8892b0; /* custom mute slate, slightly brighter than slate-500 */
 
   --font-sans: var(--font-inter), "Inter", "Roboto", system-ui, sans-serif;
   --font-mono: "Fira Code", "SF Mono", monospace;
