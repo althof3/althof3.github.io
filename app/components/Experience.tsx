@@ -181,7 +181,7 @@ export default function Experience() {
           {jobs.map((job, idx) => {
             const isEven = idx % 2 === 0;
             return (
-              <div key={idx} className="flex flex-col md:flex-row md:items-center relative">
+              <div key={idx} className="flex flex-col md:flex-row md:items-center relative mb-6 md:mb-0 last:mb-0">
                 
                 {/* Date on the Opposite Side (Desktop only) */}
                 <div className={`hidden md:flex w-1/2 items-center px-12 ${isEven ? 'justify-end' : 'justify-start md:order-last'}`}>
